@@ -1,0 +1,24 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "SimpleOpenAI",
+	"Description": "",
+	"Category": "Other",
+	"CreatedBy": "Marcus Zibung",
+	"CreatedByURL": "",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"CanContainContent": true,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "SimpleOpenAI",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	]
+}

@@ -1,0 +1,20 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "c:\\plugg\\ue5 eget\\sweeporweep\\plugins\\simpleopenai\\source\\simpleopenai\\private\\simpleopenai.cpp",
+        "ProvidedModule": "",
+        "PCH": "c:\\plugg\\ue5 eget\\sweeporweep\\intermediate\\build\\win64\\x64\\sweeporweepeditor\\development\\unrealed\\sharedpch.unrealed.project.valapi.cpp20.h.pch",
+        "Includes": [
+            "c:\\plugg\\ue5 eget\\sweeporweep\\plugins\\simpleopenai\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\simpleopenai\\definitions.simpleopenai.h",
+            "c:\\plugg\\ue5 eget\\sweeporweep\\plugins\\simpleopenai\\source\\simpleopenai\\public\\simpleopenai.h",
+            "c:\\plugg\\programs\\ue_5.5\\engine\\source\\developer\\settings\\public\\isettingsmodule.h",
+            "c:\\plugg\\ue5 eget\\sweeporweep\\plugins\\simpleopenai\\source\\simpleopenai\\public\\simpleopenaisettings.h",
+            "c:\\plugg\\ue5 eget\\sweeporweep\\plugins\\simpleopenai\\intermediate\\build\\win64\\unrealeditor\\inc\\simpleopenai\\uht\\simpleopenaisettings.generated.h",
+            "c:\\plugg\\ue5 eget\\sweeporweep\\plugins\\simpleopenai\\source\\simpleopenai\\public\\simpleopenaisettingscustomization.h",
+            "c:\\plugg\\programs\\ue_5.5\\engine\\source\\editor\\propertyeditor\\public\\idetailcustomization.h",
+            "c:\\plugg\\ue5 eget\\sweeporweep\\plugins\\simpleopenai\\source\\simpleopenai\\public\\simpleopenailog.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}
