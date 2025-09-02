@@ -1,0 +1,30 @@
+# Unreal Engine build output
+Binaries/
+DerivedDataCache/
+Intermediate/
+Saved/
+Build/*/Binaries/
+Build/*/Intermediate/
+
+# IDEs
+.idea/
+.vscode/
+*.sln
+*.suo
+*.opensdf
+*.opendb
+*.VC.db
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Rider specific
+shelf/
+workspace.xml
+contentModel.xml
+projectSettingsUpdater.xml
+modules.xml
+httpRequests/
+dataSources/
+dataSources.local.xml
