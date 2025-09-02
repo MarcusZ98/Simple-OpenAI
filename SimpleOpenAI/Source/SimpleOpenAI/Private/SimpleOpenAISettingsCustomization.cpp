@@ -66,7 +66,7 @@ FReply FSimpleOpenAISettingsCustomization::OnTestApiClicked()
 FReply FSimpleOpenAISettingsCustomization::OnFeedbackClicked()
 {
 	// Open the feedback URL in the default web browser
-	const FString FeedbackURL = TEXT("https://github.com/MarcusZ98");
+	const FString FeedbackURL = TEXT("https://github.com/MarcusZ98/Simple-OpenAI/issues");
 	FPlatformProcess::LaunchURL(*FeedbackURL, nullptr, nullptr);
 	
 	return FReply::Handled();

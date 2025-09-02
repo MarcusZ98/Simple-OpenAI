@@ -1,0 +1,40 @@
+# ---------------------------
+# IDE / Editor
+# ---------------------------
+.idea/
+.vscode/
+*.iml
+*.sln
+*.suo
+*.opensdf
+*.opendb
+*.VC.db
+
+# ---------------------------
+# Unreal Engine build output
+# ---------------------------
+Binaries/
+DerivedDataCache/
+Intermediate/
+Saved/
+Build/*/Binaries/
+Build/*/Intermediate/
+
+# ---------------------------
+# OS / Misc
+# ---------------------------
+.DS_Store
+Thumbs.db
+
+# ---------------------------
+# Rider specific
+# ---------------------------
+/shelf/
+/workspace.xml
+/contentModel.xml
+/projectSettingsUpdater.xml
+/modules.xml
+/.idea.Simple-OpenAI.iml
+/httpRequests/
+/dataSources/
+/dataSources.local.xml
