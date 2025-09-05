@@ -11,7 +11,7 @@ void UGPTChatComponent::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	MessageList = CreateDefaultSubobject<UGPTMessageList>(TEXT("MessageList"));
+	MessageList = NewObject<UGPTMessageList>(this);
 
 	// Log initialization
 	if (MessageList != nullptr)

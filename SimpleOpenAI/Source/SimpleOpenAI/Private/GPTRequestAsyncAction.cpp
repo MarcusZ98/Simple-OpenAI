@@ -9,6 +9,29 @@
 
 UGPTRequestAsyncAction* UGPTRequestAsyncAction::SendChatMessageWithHistory(UObject* WorldContextObject, UGPTMessageList* Ml, FString Model)
 {
+	return CreateAction(WorldContextObject, Ml, Model);
+}
+
+UGPTRequestAsyncAction* UGPTRequestAsyncAction::SendChatMessage(UObject* WorldContextObject, FString UserMessage, FString BehaviorPrompt = TEXT(""))
+{
+	// Get model from settings
+	const USimpleOpenAISettings* Settings = GetMutableDefault<USimpleOpenAISettings>();
+	
+	UGPTRequestAsyncAction* Action = CreateAction(WorldContextObject, nullptr, Settings->bUseCustomModel
+	? Settings->CustomModelName
+	: Settings->GetModelString(Settings->DefaultModel));
+
+	// Set message and behavior prompt
+	Action->MessageList = NewObject<UGPTMessageList>(Action);
+
+	Action->MessageList->AddMessage(TEXT("system"), BehaviorPrompt);
+	Action->MessageList->AddMessage(TEXT("user"), UserMessage);
+	return Action;
+}
+
+UGPTRequestAsyncAction* UGPTRequestAsyncAction::CreateAction(UObject* WorldContextObject, UGPTMessageList* Ml, FString Model)
+{
+	// Get GameInstance from WorldContextObject
 	UGameInstance* GameInstance = nullptr;
 
 	if (WorldContextObject)
@@ -18,50 +41,26 @@ UGPTRequestAsyncAction* UGPTRequestAsyncAction::SendChatMessageWithHistory(UObje
 			GameInstance = World->GetGameInstance();
 		}
 	}
-	
+
+	// Create the async action
 	UGPTRequestAsyncAction* Action = NewObject<UGPTRequestAsyncAction>(
 		GameInstance ? GameInstance : (UObject*)GetTransientPackage());
-	
+
 	Action->MessageList = Ml;
 	Action->Model = Model;
 	return Action;
 }
 
-UGPTRequestAsyncAction* UGPTRequestAsyncAction::SendChatMessage(UObject* WorldContextObject, FString UserMessage, FString BehaviorPrompt = TEXT(""))
-{
-
-	UGameInstance* GameInstance = nullptr;
-
-	if (WorldContextObject)
-	{
-		if (UWorld* World = WorldContextObject->GetWorld())
-		{
-			GameInstance = World->GetGameInstance();
-		}
-	}
-	
-	UGPTRequestAsyncAction* Action = NewObject<UGPTRequestAsyncAction>(
-		GameInstance ? GameInstance : (UObject*)GetTransientPackage());
-	
-	Action->Message = UserMessage;
-	Action->BehaviorPrompt = BehaviorPrompt;
-
-	USimpleOpenAISettings* Settings = GetMutableDefault<USimpleOpenAISettings>();
-	Action->Model =  Settings->bUseCustomModel
-	? Settings->CustomModelName
-	: Settings->GetModelString(Settings->DefaultModel);
-	return Action;
-}
 
 
 void UGPTRequestAsyncAction::Activate()
 {
-	UE_LOG( LogSimpleOpenAI, VeryVerbose, TEXT("[SimpleOpenAI] Activating GPTRequestAsyncAction with message: %s"), *Message);
+	UE_LOG( LogSimpleOpenAI, VeryVerbose, TEXT("[SimpleOpenAI] Activating GPTRequestAsyncAction"));
 	
-	// ------- Get Project Settings ------- //
+	// Get Project Settings
 	const USimpleOpenAISettings* Settings = GetDefault<USimpleOpenAISettings>();
 	
-	// ------- Check if API key is set in project settings ------- //
+	// Check if API key is set in project settings
 	const FString& ApiKey = Settings->ApiKey;
 
 	if (ApiKey.IsEmpty())
@@ -71,7 +70,7 @@ void UGPTRequestAsyncAction::Activate()
 		return;
 	}
 	
-	// ------- Prepare HTTP request ------- //
+	// Prepare HTTP request
 	TSharedRef<IHttpRequest, ESPMode::ThreadSafe> Request = FHttpModule::Get().CreateRequest();
 	Request->SetURL(TEXT("https://api.openai.com/v1/chat/completions"));
 	Request->SetVerb("POST");
@@ -79,7 +78,7 @@ void UGPTRequestAsyncAction::Activate()
 	Request->SetHeader("Authorization", FString::Printf(TEXT("Bearer %s"), *ApiKey));
 
 	
-	// ------- Create JSON body for the request ------- //
+	// Create JSON body for the request
 	TSharedPtr<FJsonObject> Json = MakeShareable(new FJsonObject);
 
 	if (Model.IsEmpty())
@@ -91,27 +90,12 @@ void UGPTRequestAsyncAction::Activate()
 
 	Json->SetStringField(TEXT("model"), Model);
 	
-	// ------- Prepare JSON messages ------- //
+	// Prepare JSON messages
 	
 	if (IsValid(MessageList) && !MessageList->GetMessages().IsEmpty())
 	{
 		Json->SetArrayField(TEXT("messages"), MessageList->GetMessages());
-	}
-	else if (!Message.IsEmpty())
-	{
-		UGPTMessageList* Messages = NewObject<UGPTMessageList>(this);
-
-		if (!BehaviorPrompt.IsEmpty())
-		{
-			UE_LOG( LogSimpleOpenAI, VeryVerbose, TEXT("[SimpleOpenAI] Adding system message with behavior prompt: %s"), *BehaviorPrompt);
-			Messages->AddMessage(TEXT("system"), BehaviorPrompt);
-		}
-		UE_LOG(LogSimpleOpenAI, VeryVerbose, TEXT("[SimpleOpenAI] Adding user message: %s"), *Message);
-		Messages->AddMessage(TEXT("user"), Message);
-
-		Json->SetArrayField(TEXT("messages"), Messages->GetMessages());
-	}
-	else
+	} else
 	{
 		UE_LOG(LogSimpleOpenAI, Warning, TEXT("[SimpleOpenAI] No messages provided! Cannot proceed with request."));
 		OnFailure.Broadcast();

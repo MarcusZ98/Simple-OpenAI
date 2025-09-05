@@ -17,7 +17,7 @@ void FSimpleOpenAISettingsCustomization::CustomizeDetails(IDetailLayoutBuilder& 
 {
 	IDetailCategoryBuilder& Category = DetailBuilder.EditCategory("API");
 	
-	// --- Test API Key Button ---
+	// Test API Key Button
 	Category.AddCustomRow(LOCTEXT("TestApiKey", "Test API Key"))
 	.NameContent()
 	[
@@ -35,7 +35,7 @@ void FSimpleOpenAISettingsCustomization::CustomizeDetails(IDetailLayoutBuilder& 
 		.OnClicked(FOnClicked::CreateSP(this, &FSimpleOpenAISettingsCustomization::OnTestApiClicked))
 	];
 
-	// --- Feedback Button ---
+	// Feedback Button
 	Category.AddCustomRow(LOCTEXT("FeedbackRow", "Feedback"))
 	.NameContent()
 	[

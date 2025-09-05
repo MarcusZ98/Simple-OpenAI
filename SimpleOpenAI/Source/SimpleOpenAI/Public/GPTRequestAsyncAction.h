@@ -31,14 +31,14 @@ public:
 
 	
 	static UGPTRequestAsyncAction* SendChatMessageWithHistory(UObject* WorldContextObject, UGPTMessageList* Ml, FString Model);
+	static UGPTRequestAsyncAction* CreateAction(UObject* WorldContextObject, UGPTMessageList* Ml, FString Model);
 	virtual void Activate() override;
 
 private:
 	UPROPERTY()
 	UGPTMessageList* MessageList;
+	UPROPERTY()
 	FString Model;
 
-	FString BehaviorPrompt;
-	FString Message;
 	void HandleResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
 };

@@ -32,7 +32,7 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FGPTResponseReceived ResponseReceived;
 	
-	/** Optional: Set NPC-specific personality */
+	/** Optional: Set Component-specific personality */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GPT", meta = (MultiLine = true))
 	FString BehaviorPrompt;
 
@@ -55,7 +55,8 @@ public:
 private:
 
 	UPROPERTY()
-	UGPTMessageList* MessageList;
+	UGPTMessageList* MessageList = nullptr;
+	UPROPERTY()
 	FString ModelName;
 	
 	UFUNCTION()
